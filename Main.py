@@ -4,7 +4,7 @@ from detector import Detector
 from mainboard_controller import MainboardController
 from logic import Logic
 
-camera = cv2.VideoCapture(1)
+camera = cv2.VideoCapture(0)
 detect = Detector()
 mainboard = MainboardController()
 logic = Logic(mainboard)
@@ -13,31 +13,43 @@ balldetails = ""
 goaldetails = ""
 seeingaball = False
 ballindribler = False
+ballisclose = False
+
 
 # right - 0, left - 1, back - 2
 
 # Possible states: movingtoball, aimandshoot
 
 while True:
-    (frameready, frame) = camera.read()
+    (frameready, frame) = camera.read(1)
 
     if frameready:
 
-        if state == "movingtoball":
-            balldetails = detect.ball_coordinates(frame)
+        balldetails, goaldetails = detect.coordinates(frame)
 
+        print (balldetails)
+        print (goaldetails)
+
+        if state == "movingtoball":
+            print (balldetails)
             # if balldetails != [0, 0, 0]:
             #     seeingaball = True
             # else:
             #     seeingaball = False
 
+            if balldetails[1]>450:
+                ballisclose=True
+
             logic.movetoball(balldetails)
+        elif state == "grabtheball":
+            ballindribler=logic.grabtheball(balldetails)
         elif state == "aimandshoot":
-            goaldetails = detect.goal_coordinates(frame)
             logic.aimandshoot(goaldetails)
 
         if (ballindribler):
             state = "aimandshoot"
+        elif (ballisclose):
+            state = "grabtheball"
         else:
             state = "movingtoball"
 
@@ -45,7 +57,7 @@ while True:
 
         print(state)
 
-    keypress = cv2.waitKey(100) & 0xFF
+    keypress = cv2.waitKey(50) & 0xFF
     if keypress == 27:
         mainboard.stopall()
         camera.release()

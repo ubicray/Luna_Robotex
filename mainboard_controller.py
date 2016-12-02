@@ -20,19 +20,19 @@ class MainboardController:
         time.sleep(0.5)
         self.motor.write('j\n')
 
-    def circlearound(self, speed=150):
+    def circlearound(self, speed=100):
         self.leftwheelbuf = speed
         self.rightwheelbuf = speed
         self.backwheelbuf = speed
 
-    def forwardspeed(self, speed=150):
-        self.leftwheelbuf=speed
-        self.rightwheelbuf = speed*-1
+    def forwardspeed(self, speed=100):
+        self.leftwheelbuf=speed*-1
+        self.rightwheelbuf = speed
 
-    def turnleft(self, speed=150):
+    def turnleft(self, speed=200):
         self.backwheel(speed)
 
-    def turnright(self, speed=150):
+    def turnright(self, speed=200):
         self.backwheel(-speed)
 
     def backwheel(self, speed=150):
@@ -42,6 +42,9 @@ class MainboardController:
         cmd= 'l' + str(self.leftwheelbuf).zfill(4) + 'r' + str(self.rightwheelbuf).zfill(4) + 'b' + str(self.backwheelbuf).zfill(4) + '\n'
         self.motor.write(cmd)
         print (cmd)
+        self.leftwheelbuf = 0
+        self.rightwheelbuf = 0
+        self.backwheelbuf = 0
 
     def dribbler_init(self):
         self.motor.write('d50\n')
@@ -54,6 +57,7 @@ class MainboardController:
         time.sleep(1)
         self.motor.write('l\n')
         time.sleep(0.1)
+        print("KICKED!")
 
     def checkforball(self):
         self.motor.write('i\n')
@@ -61,12 +65,16 @@ class MainboardController:
         print(line)
 
     def stopwheels(self):
-        self.fspeedbuf = 0
-        self.tspeedbuf = 0
+        self.leftwheelbuf = 0
+        self.rightwheelbuf = 0
+        self.backwheelbuf = 0
         self.sendwheelcommand()
 
     def stopall(self):
-        self.fspeedbuf = 0
-        self.tspeedbuf = 0
+        time.sleep(0.1)
+        self.leftwheelbuf = 0
+        self.rightwheelbuf = 0
+        self.backwheelbuf = 0
         self.sendwheelcommand()
         self.dribbler_init()
+        time.sleep(0.1)

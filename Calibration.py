@@ -10,7 +10,7 @@ def nothing(x):
     pass
 
 
-camera = cv2.VideoCapture(1)
+camera = cv2.VideoCapture(0)
 
 config.read('example.cfg')
 ballmin1 = config.getint('Ball', 'min1')

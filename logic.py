@@ -1,3 +1,5 @@
+import time
+
 mainboard = ''
 
 
@@ -16,6 +18,19 @@ class Logic:
                 self.mainboard.turnright()
             elif (balldetails[0] > 310 and balldetails[0] < 330):
                 self.mainboard.backwheel(0)
+
+    def grabtheball(self, balldetails):
+        if balldetails[0] > 330:
+            self.mainboard.turnleft()
+        elif balldetails[0] < 310:
+            self.mainboard.turnright()
+        elif (balldetails[0] > 310 and balldetails[0] < 330):
+            self.mainboard.backwheel(0)
+            self.mainboard.forwardspeed()
+            self.mainboard.sendwheelcommand()
+            time.sleep(4)
+            return True
+        return False
 
     def aimandshoot(self, goaldetails):
         print (goaldetails)
