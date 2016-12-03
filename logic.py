@@ -28,7 +28,7 @@ class Logic:
             self.mainboard.backwheel(0)
             self.mainboard.forwardspeed()
             self.mainboard.sendwheelcommand()
-            time.sleep(4)
+            time.sleep(2)
             return True
         return False
 
@@ -38,9 +38,11 @@ class Logic:
             self.mainboard.circlearound()
         else:
             self.mainboard.forwardspeed()
-            if goaldetails[0] > 325:
+            if goaldetails[0] > 330:
                 self.mainboard.turnleft()
-            elif goaldetails[0] < 315:
+            elif goaldetails[0] < 310:
                 self.mainboard.turnright()
-            elif (goaldetails[0] > 315 and goaldetails[0] < 325):
+            elif (goaldetails[0] > 310 and goaldetails[0] < 330):
                 self.mainboard.kick()
+                return True
+        return False

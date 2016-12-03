@@ -14,6 +14,7 @@ goaldetails = ""
 seeingaball = False
 ballindribler = False
 ballisclose = False
+reset = False
 
 
 # right - 0, left - 1, back - 2
@@ -44,7 +45,12 @@ while True:
         elif state == "grabtheball":
             ballindribler=logic.grabtheball(balldetails)
         elif state == "aimandshoot":
-            logic.aimandshoot(goaldetails)
+            reset = logic.aimandshoot(goaldetails)
+
+        if (reset):
+            ballindribler = False
+            ballisclose = False
+            reset = False
 
         if (ballindribler):
             state = "aimandshoot"
@@ -56,6 +62,7 @@ while True:
         mainboard.sendwheelcommand()
 
         print(state)
+
 
     keypress = cv2.waitKey(50) & 0xFF
     if keypress == 27:

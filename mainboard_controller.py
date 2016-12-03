@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 
 class MainboardController:
-    port = "COM6"
+    port = "COM3"
     motor = ""
     # l+002r-112b+502
 
@@ -16,7 +16,7 @@ class MainboardController:
         self.motor = serial.Serial(self.port, 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
         self.motor.write('d50\n')
         time.sleep(3)
-        self.motor.write('d150\n')
+        self.motor.write('d160\n')
         time.sleep(0.5)
         self.motor.write('j\n')
 
@@ -55,7 +55,7 @@ class MainboardController:
     def kick(self):
         self.stopwheels()
         time.sleep(1)
-        self.motor.write('l\n')
+        self.motor.write('n\n')
         time.sleep(0.1)
         print("KICKED!")
 
