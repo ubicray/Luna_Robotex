@@ -15,8 +15,7 @@ class MainboardController:
     def __init__(self):
         self.motor = serial.Serial(self.port, 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
         self.motor.write('d50\n')
-        time.sleep(3)
-        self.motor.write('d160\n')
+
         time.sleep(0.5)
         self.motor.write('j\n')
 
@@ -50,12 +49,16 @@ class MainboardController:
         self.motor.write('d50\n')
 
     def dribbler_on(self):
-        self.motor.write('d150\n')
+        time.sleep(0.1)
+        self.motor.write('d170\n')
+        time.sleep(0.1)
 
     def kick(self):
         self.stopwheels()
-        time.sleep(1)
+        time.sleep(0.5)
         self.motor.write('n\n')
+        time.sleep(0.1)
+        self.motor.write('j\n')
         time.sleep(0.1)
         print("KICKED!")
 
@@ -76,5 +79,6 @@ class MainboardController:
         self.rightwheelbuf = 0
         self.backwheelbuf = 0
         self.sendwheelcommand()
+        time.sleep(0.1)
         self.dribbler_init()
         time.sleep(0.1)

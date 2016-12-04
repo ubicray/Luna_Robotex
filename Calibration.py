@@ -19,8 +19,6 @@ ballmin3 = config.getint('Ball', 'min3')
 ballmax1 = config.getint('Ball', 'max1')
 ballmax2 = config.getint('Ball', 'max2')
 ballmax3 = config.getint('Ball', 'max3')
-
-config.read('example.cfg')
 goalmin1 = config.getint('Goal', 'min1')
 goalmin2 = config.getint('Goal', 'min2')
 goalmin3 = config.getint('Goal', 'min3')

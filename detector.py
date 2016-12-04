@@ -142,11 +142,15 @@ class Detector:
         # centroid
             c = max(goalcontours, key=cv2.contourArea)
             rect = cv2.minAreaRect(c)
+            area = rect[1][0] * rect[1][1]
             box = cv2.boxPoints(rect)
             box = np.int0(box)
-            cv2.drawContours(frame, [box], 0, (0, 0, 255), 2)
-            goaldetails = [rect[0][0], rect[0][1]]
+            if area>1000:
+                cv2.drawContours(frame, [box], 0, (0, 0, 255), 2)
+                goaldetails = [rect[0][0], rect[0][1], area]
+            else: goaldetails = [0, 0, 0]
+
         else:
-            goaldetails = [0, 0]
+            goaldetails = [0, 0, 0]
         cv2.imshow('frame', frame)
         return balldetails, goaldetails
